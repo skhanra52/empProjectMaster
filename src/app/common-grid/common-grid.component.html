@@ -1,0 +1,116 @@
+<div>
+  <table class="table  table-bordered">
+    <thead>
+      <tr>
+        <th>EmpID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email Address</th>
+        <th>DOJ</th>
+        <th>Address</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of employeeData">
+        <td>{{item.id}}</td>
+        <td>{{item.firstName}}</td>
+        <td>{{item.lastName}}</td>
+        <td>{{item.email}}</td>
+        <td>{{item.DOJ}}</td>
+        <td>{{item.address.street}},{{item.address.city}},{{item.address.state}},{{item.address.pin}}</td>
+        <td>{{item.status}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<!-- Add button and moddal  -->
+<ng-template #content let-modal>
+  <div class="modal-header bg-light">
+    <h5 class="modal-title " id="modal-basic-title">Fillup Employee data</h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="contactForm" (ngSubmit)="onSubmit(contactForm)">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-2">
+            <label for="firstName">First Name: </label>
+          </div>
+          <div class="col-sm-4 mb-2">
+            <input type="text" name="firstName" id="firstName" placeholder="First Name" formControlName="firstName" />
+          </div>
+          <div class="col-sm-2 mb-2">
+            <label for="lastName">Last Name:</label>
+            </div>
+            <div class="col-sm-4 mb-2">
+            <input type="text" name="lastName" id="lastName" placeholder="Last Name" formControlName="lastName">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-sm-2">
+              <label for="email">Email:</label>
+            </div>
+            <div class="col-sm-4">
+              <input type="text" id="email" placeholder="email" formControlName="email">
+            </div>
+
+            <div class="col-sm-5">
+              <div class="input-group ">
+                <label for="doj" style="margin: auto; padding-right: 10px">DOJ: </label>
+                <input id="doj" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker
+                  #dp="ngbDatepicker" formControlName="doj">
+                <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- address -->
+        <div formGroupName="address">
+          <label for="address">Address:</label><br>
+          <div class="container">
+          <div class="form-group mb-2">
+            <label for="street" style="margin-right: 31px;">Street:</label>
+            <input type="text" id="street" name="street" formControlName="street" />
+          </div>
+          <div class="form-group mb-2">
+            <label for="city" style="margin-right: 45px;">City:</label>
+            <input type="text" id="city" name="city" formControlName="city" />
+          </div>
+          <div class="form-group mb-2">
+            <label for="state" style="margin-right: 37px;">State:</label>
+            <input type="text" id="state" name="state" formControlName="state" />
+          </div>
+          <div class="form-group mb-2">
+            <label for="pin" style="margin-right: 10px;">Pin Code:</label>
+            <input type="text" id="pin" name="pin" formControlName="pin" />
+          </div>
+        </div>
+        <div class="form-group mr-2">
+          <label for="status" style="margin-right: 30px; margin-left: 10px">Status:</label>
+          <select name="status" id="status" formControlName="status">
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+      <div class="modal-footer bg-light">
+        <!-- <button type="submit">Save</button> -->
+        <button type="submit" class="btn btn-outline-dark" (click)="modal.close('Save click')"
+          [disabled]="!contactForm.valid">Save</button>
+        <button type="button" class="btn btn-outline-dark" aria-label="Close"
+          (click)="modal.dismiss('Cancel click')">Cancel</button>
+      </div>
+    </form>
+  </div>
+
+</ng-template>
+
+<button class="btn btn-lg btn-outline-primary" (click)="open(content)">Add</button>
+
+
+<hr>
+<pre>{{ closeResult }}</pre>
